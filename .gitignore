@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*/__pycache__/*
+*.py[cod]
+
+# virtual env
+venv/
+.venv/
+
+.idea/
+.idea
+
+# packages
+*.egg-info
+/dist
+
+/tests/*
+
+*config.ini
+*credentials/
+*logs/
+
+*credentials/credentials.json
+*credentials*.json
+*token.pickle
