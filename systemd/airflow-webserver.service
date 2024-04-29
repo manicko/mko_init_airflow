@@ -1,0 +1,37 @@
+# Systemd 'unit' file.
+#  sudo touch /etc/systemd/system/airflow-webserver.service
+# sudo nano /etc/systemd/system/airflow-webserver.service
+# sudo systemctl enable airflow-webserver.service
+# sudo systemctl start airflow-webserver.service
+
+# Copy (or link) them to /usr/lib/systemd/system or etc/systemd/system
+# and copy the airflow.conf to /etc/tmpfiles.d/ or /usr/lib/tmpfiles.d/.
+# Copying airflow.conf ensures /run/airflow is
+# created with the right owner and permissions (0755 airflow airflow)
+#
+
+#By default the environment configuration points to /etc/sysconfig/airflow . You can copy the "airflow" file in this
+#directory and adjust it to your liking.
+#
+#With some minor changes they probably work on other systemd systems.
+
+
+[Unit]
+Description=Airflow webserver daemon
+After=network.target postgresql.service mysql.service redis.service rabbitmq-server.service
+Wants=postgresql.service mysql.service redis.service rabbitmq-server.service
+
+
+[Service]
+Environment="PATH=/home/dataflow/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/home/dataflow/airflow/"
+User=dataflow
+Group=dataflow
+Type=simple
+ExecStart=/home/dataflow/.local/bin/airflow webserver -p 8080 --pid /home/dataflow/airflow/webserver.pid
+Restart=on-failure
+RestartSec=5s
+PrivateTmp=true
+
+
+[Install]
+WantedBy=multi-user.target
