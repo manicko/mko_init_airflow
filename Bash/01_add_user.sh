@@ -17,3 +17,4 @@ fi
 
 sudo useradd "$USER_NAME" -s /bin/bash -m -g users -G "$USER_GROUP"
 echo "$USER_NAME":"$USER_PASSWORD" | sudo chpasswd
+sudo su - "$USER_NAME"

@@ -3,6 +3,7 @@ USUARIO_SO="$(whoami)"
 AIRFLOW_VERS="2.9.0"
 PYTHON_VERSION='3.10'
 _DB_PASSWORD="PASSWORD"
+AIRFLOW_PASSWORD="PASSWORD"
 #_IP=$(hostname -I | cut -d' ' -f1) replace below for production
 _IP='localhost'
 while getopts "a:p:b:h" opt; do
@@ -50,18 +51,19 @@ pip3 install psycopg2-binary
 
 #set home for airflow
 if [[ -z "${AIRFLOW_HOME}" ]]; then
-	export AIRFLOW_HOME="$HOME/airflow"
-	echo "export AIRFLOW_HOME='$HOME/airflow'" >>"$HOME/.bashrc"
+	export "AIRFLOW_HOME=$HOME/airflow"
+	echo "export AIRFLOW_HOME=$HOME/airflow" >>"$HOME/.bashrc"
 fi
 
 #install airflow
 pip3 install "apache-airflow==$AIRFLOW_VERS" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-$AIRFLOW_VERS/constraints-$PYTHON_VERSION.txt"
 
-export PATH=$PATH:$HOME/.local/bin
-echo "export PATH=$PATH:$HOME/.local/bin" >>"$HOME/.bashrc"
+export "PATH=$PATH:$HOME/.local/bin"
+echo "export PATH=$PATH:$HOME/.local/bin >>$HOME/.bashrc"
 
 #initialize airflow to setup home folder
-airflow initdb
+airflow db migrate
+sudo chmod og+rX "$HOME"
 sudo -u postgres createdb airflow
 sudo -u postgres createuser airflow
 sudo -u postgres psql airflow -c "alter user airflow with encrypted password '$_DB_PASSWORD';"
@@ -83,7 +85,13 @@ sed -i "s%load_examples =.*%load_examples = False%" "$AIRFLOW_HOME/airflow.cfg"
 sed -i "s%job_heartbeat_sec =.*%job_heartbeat_sec = 30%" "$AIRFLOW_HOME/airflow.cfg"
 
 
+airflow users create --username admin \
+          --firstname FIRST_NAME \
+          --lastname LAST_NAME \
+          --role Admin \
+          --email admin@example.org\
+          --password "$AIRFLOW_PASSWORD"
 
-airflow db init
+
 airflow scheduler -D
 airflow webserver -p 8080 -D
