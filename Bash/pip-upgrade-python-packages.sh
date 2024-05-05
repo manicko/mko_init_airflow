@@ -8,3 +8,14 @@ while read -r line; do
     read -r answer </dev/tty;
     test "${answer}" == "y" && pip install -U "${pkg}";
 done< <(pip list --outdated)
+
+##!/bin/bash
+#for pkg in $( pip list --outdated | cut -d' ' -f 1 )
+#do
+#    echo $pkg
+#    echo "update now? [yn]:"
+#    read answer
+#    if [ "$answer" == "y" ]; then
+#        pip install -U $pkg
+#    fi
+#done
