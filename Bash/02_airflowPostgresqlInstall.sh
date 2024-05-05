@@ -34,12 +34,18 @@ while sudo fuser /var/{lib/{dpkg,apt/lists},cache/apt/archives}/lock >/dev/null 
    sleep 1
 done
 
+sudo apt-get autoclean
+sudo apt-get autoremove
+sudo apt-get clean
+
 # Ensure all packages are up too date
 sudo apt update && sudo apt upgrade -y
+
 
 # Install Postgresql:
 sudo apt install -y postgresql postgresql-contrib
 # Install Postgresql connector to Airflow:
+sudo apt install python3-pip
 pip3 install psycopg2-binary
 
 #set home for airflow

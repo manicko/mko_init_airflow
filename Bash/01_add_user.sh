@@ -9,11 +9,11 @@ USER_GROUP='sudo'
 #sudo nano /etc/sudoers
 
 
-getent group $USER_GROUP
-if [ $? -ne 0 ] ; then
-    sudo su -c "groupadd $USER_GROUP"
+getent group "$USER_GROUP"
+if [ $? -ne 0 ]  ; then
+    sudo groupadd "$USER_GROUP"
 fi
 
 
-sudo su -c "useradd $USER_NAME -s /bin/bash -m -g $PRIMARYGRP -G $USER_GROUP"
-echo $USER_NAME:$USER_PASSWORD | sudo chpasswd
+sudo useradd "$USER_NAME" -s /bin/bash -m -g users -G "$USER_GROUP"
+echo "$USER_NAME":"$USER_PASSWORD" | sudo chpasswd
