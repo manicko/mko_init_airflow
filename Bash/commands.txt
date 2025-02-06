@@ -21,7 +21,7 @@ sudo apt install python3-pip
 
 sudo apt-get install postgresql postgresql-contrib
 sudo -u postgres psql
-CREATE USER airflow password 'rC2iU5xG2wrP';
+CREATE USER airflow password '33333';
 https://github.com/manicko/install-and-configure-apache-airflow-on-ubuntu-server
 
 You are connected to database "airflow" as user "postgres" via socket in "/var/run/postgresql" at port "5432".
