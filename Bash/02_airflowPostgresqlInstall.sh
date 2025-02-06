@@ -1,8 +1,9 @@
 #!/bin/bash
 USUARIO_SO="$(whoami)"
-AIRFLOW_VERS="2.9.0"
+AIRFLOW_VERS="2.9.1"
 PYTHON_VERSION='3.10'
 _DB_PASSWORD="PASSWORD"
+
 AIRFLOW_PASSWORD="PASSWORD"
 #_IP=$(hostname -I | cut -d' ' -f1) replace below for production
 _IP='localhost'

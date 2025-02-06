@@ -1,0 +1,56 @@
+# user commands
+sudo passwd root
+sudo adduser username
+sudo usermod -a -G sudo username
+sudo nano /etc/sudoers
+
+
+# clean up some space on ubuntu
+sudo apt-get autoclean
+sudo apt-get autoremove
+sudo apt-get clean
+docker container prune; docker image prune; docker volume prune
+#sudo apt install ncdu
+#ncdu /
+
+
+sudo apt upgrade python3
+sudo apt install python3-pip
+
+
+
+sudo apt-get install postgresql postgresql-contrib
+sudo -u postgres psql
+CREATE USER airflow password 'rC2iU5xG2wrP';
+https://github.com/manicko/install-and-configure-apache-airflow-on-ubuntu-server
+
+You are connected to database "airflow" as user "postgres" via socket in "/var/run/postgresql" at port "5432".
+chmod og+rX /home/user #Cannot start psql with user postgres �Could not change directory to /home/user �
+
+# venv install:
+#sudo apt install python-pip
+#sudo apt install python3-venv
+#cd ..
+#cd home/user
+#mkdir airflow && cd airflow
+#python3 -m venv .venv
+#source .venv/bin/activate
+
+export AIRFLOW_HOME=~/airflow
+pip install "apache-airflow==2.9.0" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.0/constraints-3.10.txt"
+sed -i "s%sql_alchemy_conn.*%sql_alchemy_conn = postgresql+psycopg2://airflow:rC2iU5xG2wrP@localhost/airflow%" "$AIRFLOW_HOME/airflow.cfg"
+sed -i "s%executor =.*%executor = LocalExecutor%" "$AIRFLOW_HOME/airflow.cfg"
+sed -i "s%default_timezone =.*%default_timezone = Europe/Moscow%" "$AIRFLOW_HOME/airflow.cfg"
+sed -i "s%default_ui_timezone =.*%default_ui_timezone = Europe/Moscow%" "$AIRFLOW_HOME/airflow.cfg"
+sed -i "s%load_examples = True.*%load_examples = False%" "$AIRFLOW_HOME/airflow.cfg"
+
+
+
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple mko-get-mediascope-data
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple mko-gloader
+
+export PATH=$PATH:/home/airflow/.local/bin
+
+cd /home/sioux
+mkdir py_packages
+PYTHONPATH=/home/sioux/py_packages python3

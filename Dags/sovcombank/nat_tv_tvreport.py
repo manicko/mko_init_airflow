@@ -21,6 +21,13 @@ REPORT_SETTINGS = [
 
 @dag(
     dag_id="Sovcombank_nat_tv_tvreport",
+                    # .---------------- minute (0 - 59)
+                    # |  .------------- hour (0 - 23)
+                    # |  |  .---------- day of month (1 - 31)
+                    # |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+                    # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+                    # |  |  |  |  |
+                    # *  *  *  *  * user-name command to be executed
     schedule_interval="07 05 06 * *",  # 05 07 Every 6th of a month|  minute (0-59), hour (0-23, 0 = midnight), day (1-31), month (1-12), weekday (0-6, 0 = Sunday).
     start_date=pendulum.datetime(2024, 1, 1, tz='Europe/Moscow'),
     catchup=False,

@@ -7,7 +7,7 @@ USER = 'dataflow'
 
 LOADER_PATH = f'/home/{USER}/airflow/dags/ext_packs/loader.py'
 MEDIASCOPE_PATH = f'/home/{USER}/airflow/dags/ext_packs/mediascope_data'
-REPORT_PATH = f'{MEDIASCOPE_PATH}/mko_get_mediascope_data/settings/reports/test.yaml'
+REPORT_PATH = f'{MEDIASCOPE_PATH}/mko_get_mediascope_data/settings/reports/sovcombank/tv_msk_new_creatives.yaml'
 OUTPUT_PATH = f'{MEDIASCOPE_PATH}/data/output/'
 SETTINGS = f'{MEDIASCOPE_PATH}/mko_get_mediascope_data/settings/connections/mediascope.json'
 
@@ -19,11 +19,11 @@ REPORT_SETTINGS = [
 
 
 @dag(
-    dag_id="Sovcombank_tv_new_creatives",
-    schedule_interval="00 07 * * 2",  # 11 00 Tuesday weekly
+    dag_id="Sovcombank_tv_msk_new_creatives",
+    schedule_interval="00 06 * * 2",  # 10 00 Tuesday weekly
     start_date=pendulum.datetime(2024, 1, 1, tz='Europe/Moscow'),
     catchup=False,
-    tags=["sovcombank", 'tv'],
+    tags=["sovcombank", 'tv','msk'],
 )
 def dag_wrapper():
     @task
@@ -36,7 +36,7 @@ def dag_wrapper():
             'script_file': f'python3 {LOADER_PATH}',
             'arg': f'-up',
             'source_path': f'{OUTPUT_PATH}{folder}',
-            'destination_path': folder,
+            'destination_path': f'sovcombank/{folder}',
             'parent_id': f'1YtkAcIHDdUKIqWvLHxxALgwrgDMZupAt'
         }
         return ' '.join(params.values())
